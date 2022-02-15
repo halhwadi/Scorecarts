@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'scorecarts',
         'USER': 'postgres',
-        'PASSWORD': 'Yarab_1976',
+        'PASSWORD': 'XXXXXXXXX',
         'HOST': 'localhost'
     },
    }
