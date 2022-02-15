@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>ScoreCarts</title>
+
+ 
+
+</head>
+<body>
+
+<div class='row' style="background-color:green; height:50px;align-items: center;padding-top: 10px;padding-left: 10px;">
+   <b style="font-size: 20px;color: white;">ScoreCarts</b>
+</div>
+<div class='container' style="margin-top: 2%;margin-left: 5%;margin-bottom: 5%;">
+    
+    <form  enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <div class="row d-flex justify-content-lg-start" style="font-family: ABeeZee, sans-serif;font-size: 12px; color: red;">
+            <div class="col">
+                {{ form.non_field_errors }}
+            </div>
+        </div>
+        <div class="row d-flex justify-content-lg-start"  style="font-family: ABeeZee, sans-serif;font-size: 14px">
+            <div class="col d-flex-col float-start">
+                <b>{{ form.Title.label_tag }}</b>
+            
+                <p id="title">{{ form.Title }}</p>
+                <p id="title_error" style="font-family: ABeeZee, sans-serif;font-size: 12px; color: red;">
+                    {{ form.Title.errors }}
+                </p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-lg-start" style="font-family: ABeeZee, sans-serif;font-size: 14px">
+                <div class="col d-flex-col float-start">
+                <b>{{ form.Description.label_tag }}</b>
+                
+                <p id="category">{{ form.Description }}</p>
+                <p id="category_error" style="font-family: ABeeZee, sans-serif;font-size: 12px; color: red;">
+                    {{ form.Description.errors }}
+                </p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-lg-start" style="font-family: ABeeZee, sans-serif;font-size: 14px;width:100%">
+            <div class="col d-flex-col float-start">
+                <b>{{ form.priority.label_tag }}</b>
+           
+                <p id="body">{{ form.priority }}</p>
+                <p id="body_error" style="font-family: ABeeZee, sans-serif;font-size: 12px; color: red;">
+                    {{ form.priority.errors }}
+                </p>
+            </div> 
+        </div>
+
+        <div class="row d-flex justify-content-lg-start" style="font-family: ABeeZee, sans-serif;font-size: 14px;width:100%">
+            <div class="col d-flex-col float-start">
+                <b>{{ form.status.label_tag }}</b>
+           
+                <p id="body">{{ form.status }}</p>
+                <p id="body_error" style="font-family: ABeeZee, sans-serif;font-size: 12px; color: red;">
+                    {{ form.status.errors }}
+                </p>
+            </div> 
+        </div>
+        <div class='row' style="font-family: ABeeZee, sans-serif;font-size: 12px;">
+            <div class="col d-flex">
+                <button id="submit" name="submit" class="btn btn-primary"  type="submit" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 2%;width:100px;"><b style="color:white">Submit</b></button>
+                
+            </div>  
+        </div>
+    </form>
+    <button id="close" onclick="HomeWin()" class="btn btn-primary"  type="submit" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 4%;width:100px;"><b style="color:white">Cancel</b></button>
+</div>
+</div>
+<!-- loading icon -->
+<div class="modal"><!-- Place at bottom of page --></div> 
+
+{% for error in errors %}
+ {{error}}
+{% endfor %}
+
+<script>
+    function HomeWin() {
+    window.location.href = "{% url 'tickets_list' %}";
+}
+</script>
+
+<script src="{% static 'sweetalert.min.js' %}"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+{%  for msg in messages %}
+
+Swal.fire({
+             
+             showCancelButton: false,
+             confirmButtonColor: '#20c997',
+             cancelButtonColor: '#20c997',
+             text: '{{msg}}',
+         })
+{% endfor %}
+
+</script>
+
+
+</body>
+</html>

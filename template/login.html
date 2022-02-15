@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ScoreCarts</title>
+
+</head>
+
+<body style="width:auto; height:auto;transform: translate(0px);">
+    <div class='row' style="background-color:green; height:50px;align-items: center;padding-top: 10px;padding-left: 10px;margin-bottom: 5%;">
+        <b style="font-size: 20px;color: white;">ScoreCarts</b>
+     </div>
+
+        <div style="width:100%; height:auto;text-align: center;">
+        <form method="post">
+              {% csrf_token %}
+
+              {{ form.non_field_errors }}
+               
+                {{ form.username.label_tag }}
+                <br>
+                {{form.username}}<br>
+                <small style="color:red;font-size: 11px;">{{form.username.errors}}</small>
+                <div id="error" style="font-size: 12px;color: red;margin-bottom: 2%;"></div>
+                {{ form.password.label_tag }}
+                <br>
+                {{form.password}}<br>
+                <small style="color:red;font-size: 11px;">{{form.password.errors}}</small>
+              
+
+            
+            <br>
+            <br>
+            
+            <button name="login" id="id_login" type="submit" class="btn btn-primary" type="button" style="background: var(--bs-teal);font-size: 14px;text-align: center;width:20%;background-color: green;color: white;"><b>Login</b></button>     
+        </form>
+        </div>
+
+        <br>
+        
+    </div>
+
+<!--    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>-->
+
+   
+
+
+<script src="{% static 'sweetalert.min.js' %}"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+{%  for msg in messages %}
+
+Swal.fire({
+            
+            showCancelButton: false,
+            confirmButtonColor: '#20c997',
+            cancelButtonColor: '#20c997',
+            text: '{{msg}}',
+        })
+{% endfor %}
+</script>
+</body>
+
+</html>

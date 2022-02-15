@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load social_share %}
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Scorecarts</title>
+
+    <script src="{% static 'bootstrap_load_list.min.js' %}"></script>
+    
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+</head>
+<body>
+<div class='row' style="background-color:green; height:50px;align-items: center;padding-top: 10px;padding-left: 10px;">
+    <b style="font-size: 20px;color: white;">Ticket Details</b>
+ </div>
+
+    <div class="container"  style="margin-left: 5%;margin-top: 5%;margin-bottom: 5%;margin-right: 2%;">
+
+        <div class="row" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+                <b style="color:green">Title</b><br>
+                {{ticket.Title}}<br><br>
+            </div>
+        </div>
+
+        <div class="row" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+                <b style="color:green">Description</b><br>
+                {{ticket.Description}}<br><br>
+            </div>
+        </div>
+
+        <div class="row" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+                <b style="color:green">Priority</b><br>
+                {{ticket.priority}}<br><br>
+            </div>
+        </div>
+
+        <div class="row" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+                <b style="color:green">Status</b><br>
+                {{ticket.status}}<br><br>
+            </div>
+        </div>
+
+        <div class="row" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+                <b style="color:green">Submition Date</b><br>
+                {{ticket.date}}<br><br>
+            </div>
+        </div>
+
+        <div class='row' style="font-family: ABeeZee, sans-serif;font-size: 12px;">
+            {% if ticket.createdby == user %}
+                <div class="col d-flex">
+                    <a href="{% url 'update_ticket' ticket.id %}" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 2%;width:70px;text-decoration: none;padding-left: 15px;"><b style="color:white">Update</b></a>  
+                </div>
+            {% endif %}
+
+            {% if ticket.createdby == user %}
+                <div class="col d-flex">
+                    <a href="{% url 'delete_ticket' ticket.id %}" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 2%;width:70px;text-decoration: none;padding-left: 15px;"><b style="color:white">Delete</b></a>  
+                </div>
+            {% endif %}
+
+            <div class="col d-flex">
+                <a href="{% url 'tickets_list' %}" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 2%;width:70px;text-decoration: none;padding-left: 15px;"><b style="color:white">Close</b></a>  
+            </div>
+        </div>
+    
+    <div class="row" style="margin-bottom: 4%;">
+        <div class="col d-flex flex-row align-items-start">
+            {% post_to_whatsapp  object_or_url 'Share on Whatsapp' %}&nbsp;&nbsp;&nbsp;
+            {% post_to_facebook object_or_url 'Share on FaceBook' %}
+        </div>
+    </div>
+
+</div>
+
+{% for error in errors %}
+ {{error}}
+{% endfor %}
+
+</script>
+
+<script src="{% static 'sweetalert.min.js' %}"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+{%  for msg in messages %}
+
+Swal.fire({
+             
+             showCancelButton: false,
+             confirmButtonColor: '#20c997',
+             cancelButtonColor: '#20c997',
+             text: '{{msg}}',
+         })
+{% endfor %}
+
+</script>
+
+
+</body>
+</html>

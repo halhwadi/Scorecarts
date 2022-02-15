@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>ScoreCarts</title>
+
+    <script src="{% static 'bootstrap_load_list.min.js' %}"></script>
+    
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+
+<div class="container"  style="margin-left: 5%;margin-top: 5%;margin-bottom: 5%;margin-right: 2%;">
+
+<div class="row d-flex-end justify-content-sm-end" style="margin-right: 45px;">
+    <!-- create new ticket -->
+    <div  style="background-clip: content-box;background-color:green;width:250px; text-align: center;padding-top: 10px;">
+        <a href="{% url 'create_ticket' %}" style="text-decoration: none;color:white;font-weight: bold;">Create New Ticket</a>
+    </div>
+    <div  style="background-clip: content-box;background-color:green;width:150px; text-align: center;padding-top: 10px;">
+        <a href="{% url 'logout' %}"  style="text-decoration: none;color:white;font-weight: bold;">Logout</a>
+    </div>
+</div>
+
+{% if tickets %}
+
+<div class="row" style="margin-top: 5%;">
+    <div id="filter_div" class="col d-flex d-xxl-flex flex-column align-items-start justify-content-xxl-center align-items-xxl-center;" style="margin-left: 5%;">
+      <form name="filter" method="get">
+          {% csrf_token %}
+          <button id="filter_button" style="background-color:green;border-color: white;font-weight: bold;color:white;font-family: ABeeZee, sans-serif;font-size:14px">Filter <i class="fa fa-filter"></i></button>
+          <a href="{% url 'tickets_list' %}"><input id="refresh_filter_1"  type="button" value="Clear" style="background-color:green;border-color: white;font-weight: bold;color:white;font-family: ABeeZee, sans-serif;font-size:14px"></a>
+          <br>
+          <select id="status_id" name="status" style="font-weight: bold;font-family: ABeeZee, sans-serif;font-size:13px">
+              {% for st  in status_list %}
+                {% if st == "1" %}
+                <option value={{st}}  selected><b>On Progress</b></option> 
+                {% elif st == "2" %}
+                <option value={{st}}  selected><b>Closed</b></option>
+                {% endif %}   
+              {% endfor %}
+              <option value=""  selected><b>Status</option>
+              
+          </select>
+
+          <select id="status_id" name="priority" style="font-weight: bold;font-family: ABeeZee, sans-serif;font-size:13px">
+            {% for p  in priority_list %}
+              {% if p == "1" %}
+              <option value={{p}}  selected><b>High</b></option> 
+              {% elif p == "2" %}
+              <option value={{p}}  selected><b>Moderate</b></option>
+              {% elif p == "3" %}
+              <option value={{p}}  selected><b>Low</b></option>
+              {% endif %}   
+            {% endfor %}
+            <option value=""  selected><b>Priority</option>
+            
+        </select>
+      </form>
+    </div>
+
+    <div id="order_div" class="col d-flex d-xxl-flex flex-column align-items-center justify-content-xxl-center align-items-xxl-center;">
+      <form name="sort" method="get">
+          {% csrf_token %}
+          <button id="sort_button" style=" background-color: green;border-color: white;font-weight: bold;color:white;font-family: ABeeZee, sans-serif;font-size:14px">Sort</button>
+          <a href="{% url 'tickets_list' %}"><input id="refresh_filter_1"  type="button" value="Clear" style="background-color:green;border-color: white;font-weight: bold;color:white;font-family: ABeeZee, sans-serif;font-size:14px"></a>
+          <br>
+          <select id="qout_id" name="date" style="font-weight: bold;font-family: ABeeZee, sans-serif;font-size:13px;margin-right: 2%;">
+                  <option  value="date"  selected>Date(Oldest to Newest)</option>
+                  <option  value="-date"  selected>Date(Newest to Oldest)</option>
+                  <option  value=""  selected></option>
+                  
+          </select>
+      </form>
+    </div>
+  </div>
+<div class="row d-flex justify-content-sm-start" style="font-family: ABeeZee, sans-serif;font-size: 16px;margin-top: 2%;margin-right: 5%;font-weight: bold;background-color:green;color: white;">
+    <div class="col">
+      ID
+    </div>
+
+    <div class="col">
+        Title
+    </div>
+
+    <div class="col">
+        Description
+    </div>
+
+    <div class="col">
+        priority
+    </div>
+
+    <div class="col">
+        Status
+    </div>
+
+    <div class="col">
+        Date
+    </div>
+</div>
+
+
+    {% for ticket in tickets %} 
+    <a href="{% url 'view_ticket' ticket.id %}" style="text-decoration: none;">   
+        <div class="row d-flex justify-content-sm-start" style="font-family: ABeeZee, sans-serif;font-size: 12px;margin-top: 2%;margin-right: 5%;font-weight: bold;">
+            <div class="col">
+            {{ticket.id}}
+            </div>
+
+            <div class="col">
+                {{ticket.Title|truncatechars:30}}
+            </div>
+
+            <div class="col">
+                {{ticket.Description|truncatechars:30}}
+            </div>
+
+            <div class="col justify-content-center">
+                {% if ticket.priority == "1" %}
+                    High<br>
+                {% elif ticket.priority == "2" %}
+                    Moderate
+                {% elif ticket.priority == "3" %}
+                    Low
+                {% endif %}
+            </div>
+
+            <div class="col justify-content-start">
+                {% if ticket.status == "1" %}
+                    On_progress<br>
+                {% elif ticket.status == "2" %}
+                    Closed
+                {% endif %}
+            </div>
+
+            <div class="col">
+                {{ticket.date}}
+            </div>
+        </div> 
+    </a>
+        <hr> 
+    {% endfor %}
+{% else %}
+<div style="margin-top: 10%;margin-bottom: 10%">
+<B style="font-family: ABeeZee, sans-serif;font-size: 16px;;"> No tickets So far</B>
+</div>
+{% endif %}
+    <!-- <div class='row' style="font-family: ABeeZee, sans-serif;font-size: 12px;margin-top: 5%;">
+        <div class="col d-flex-row float-end">
+    <button id="close" onclick="HomeWin()" class="btn btn-primary"  type="submit" style="font-size:14px;font-family: ABeeZee, sans-serif;background-color:green;margin-top:0%;margin-bottom: 4%;width:100px;font-weight: bold;">Back</button>
+        </div>
+    </div> -->
+
+
+
+<script>
+    function HomeWin() {
+        window.location.href = "{% url 'login' %}";
+}
+</script>
+
+<script src="{% static 'sweetalert.min.js' %}"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+{%  for msg in messages %}
+
+Swal.fire({
+             
+             showCancelButton: false,
+             confirmButtonColor: '#20c997',
+             cancelButtonColor: '#20c997',
+             text: '{{msg}}',
+         })
+{% endfor %}
+
+</script>
+
+
+
+ 
+</body>
+</html>
